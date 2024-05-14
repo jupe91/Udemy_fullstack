@@ -1,16 +1,31 @@
-function whosPaying(names) {
-    
-    /******Don't change the code above*******/
-        
-        var length = names.length;
-    
-        var randomIndex = Math.floor(Math.random() * length);
-    
-        var selectedName = names[randomIndex];
-        
-        return selectedName + " is going to buy lunch today!";
-    
+var output = [];
+var count = 1;
 
-    
-    /******Don't change the code below*******/    
+function fizzBuzz() {
+
+    if (count % 3 === 0 && count % 5 === 0) {
+        output.push("FizzBuzz");
     }
+    else if (count % 3 === 0) {
+        output.push("Fizz");
+    } 
+    else if (count % 5 === 0) {
+        output.push("Buzz");
+    }
+    else {
+        output.push(count);
+    }
+    
+    count++;
+  
+    console.log(output);
+}
+
+fizzBuzz();
+fizzBuzz();
+fizzBuzz();
+fizzBuzz();
+fizzBuzz();
+fizzBuzz();
+fizzBuzz();
+fizzBuzz();
