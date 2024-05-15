@@ -8,4 +8,4 @@ function whosPaying(names) {
 }
 
 var names = ["Reetta", "Pekka", "Roosa"];
-whosPaying(names);
+console.log(whosPaying(names));
