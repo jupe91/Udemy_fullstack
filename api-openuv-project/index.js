@@ -1,33 +1,55 @@
-import express from "express";  // Express library to create the server
-import axios from "axios";  // Axios to make HTTP requests
-import dotenv from 'dotenv';  // dotenv to load environment variables from the .env file
+import express from "express";
+import axios from "axios";
+import dotenv from "dotenv";
+import path from "path";
+import moment from "moment";
 
-dotenv.config();  // Load environment variables from .env file
+dotenv.config();
 
-const app = express();  // Create an instance of the Express application
-const port = 3000;  // Set the port number the server will listen on
-const apiKey = process.env.OPENUV_API_KEY;  // Access the OpenUV API key from environment variables
+const app = express();
+const port = 3000;
+const apiKey = process.env.OPENUV_API_KEY;
 
-app.use(express.json());  // Use Express middleware to parse JSON request bodies
+// Set EJS as the view engine and configure the views directory
+app.set("view engine", "ejs");
+app.set("views", path.join(path.resolve(), "views"));
 
-// Define a route that listens to GET requests at "/uv"
+app.use(express.static("public"));
+app.use(express.json());
+
+// Route to render the homepage (with empty UV data initially)
+app.get("/", (req, res) => {
+    res.render("index", { uvData: null, error: null });
+});
+
+// Route to fetch and display UV data based on user input (lat and long)
 app.get("/uv", async (req, res) => {
     try {
-        const { lat, lng } = req.query;  // Get latitude and longitude from query parameters
-        const response = await axios.get(  // Send GET request to the OpenUV API
-            `https://api.openuv.io/api/v1/uv?lat=${lat}&lng=${lng}`,  // Construct the API URL with lat and lng
-            {
-                headers: {
-                    "x-access-token": apiKey,  // Include the API key in the request header
-                },
-            }
-        );
-        res.json(response.data);  // Send the API response data as JSON back to the client
+        const { lat, lng } = req.query;
+
+        if (!lat || !lng) {
+            return res.render("index", { uvData: null, error: "Please provide latitude and longitude." });
+        }
+        // Fetch UV data from OpenUV API
+        const response = await axios.get(`https://api.openuv.io/api/v1/uv?lat=${lat}&lng=${lng}`, {
+            headers: {
+                "x-access-token": apiKey,
+            },
+        });
+
+        let uvData = response.data.result;
+        // Format solar noon time using moment.js if it's available
+        if (uvData.sun_info && uvData.sun_info.sun_times.solarNoon) {
+            uvData.solarNoonFormatted = moment.utc(uvData.sun_info.sun_times.solarNoon).format("MMMM Do YYYY, h:mm A") + " UTC";
+        }
+        // Render the result page with fetched UV data
+        res.render("index", { uvData, error: null });
     } catch (error) {
-        res.status(500).send("Failed to fetch UV data");
+        console.error(error);
+        res.render("index", { uvData: null, error: "Failed to fetch UV data. Please try again." });
     }
 });
 
-app.listen(port, () => { 
+app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
