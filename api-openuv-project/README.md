@@ -1,12 +1,12 @@
-🌞 UV Index Checker
+🌞 **UV Index Checker**
 
 A simple web application running on a server to check the UV index based on latitude and longitude input.
 
-📌 Features
+📌 **Features**
 
 Enter latitude and longitude to get real-time UV data.
 
-Displays:
+**Displays:**
 
 • 🌡️ Current UV Index
 
@@ -17,11 +17,11 @@ Displays:
 • 🕰️ Solar Noon Time (UTC format)
 
 
-🛠️ Installation
+🛠️ **Installation**
 
 Clone the repository:
 
-• git clone <your-repo-url>
+• git clone <my-repo-url>
 
 • Ensure you have Node.js installed
 
@@ -41,7 +41,7 @@ Clone the repository:
 • After the dependencies are installed and the .env file is set up, start the server by running: npm start
 
 
-🚀 How to Use
+🚀 **How to Use**
 
 • Open your browser and navigate to http://localhost:3000 (or your configured server address).
 
@@ -51,7 +51,7 @@ Clone the repository:
 
 • View the results, including the current UV index, max UV index, ozone level, and solar noon time.
 
-🖥️ Example Output
+🖥️ **Example Output**
 
 🌞 UV Index Checker
 Latitude: 65.03  Longitude: 25.49
@@ -66,7 +66,7 @@ Latitude: 65.03  Longitude: 25.49
 
 🕰️ Solar Noon Time: Thu, 30 Jan 2025 10:32:33 GMT
 
-🏗️ Technologies Used
+🏗️ **Technologies Used**
 
 HTML
 
